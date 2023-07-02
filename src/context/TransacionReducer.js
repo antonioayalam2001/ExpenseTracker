@@ -1,9 +1,15 @@
 export const initialState = {
     transactions: [{
         id: 1,
-        text: "Flower",
-        amount: -20
-    }]
+        concept: "Flower",
+        quantity: -20
+    },
+    {
+        id: 3,
+        concept: "Flowers",
+        quantity: 20
+    },
+    ]
 }
 
 export const TransactionReducer = (state, action) => { 
