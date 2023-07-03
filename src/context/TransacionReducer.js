@@ -1,29 +1,13 @@
-export const initialState = {
-    transactions: [{
-        id: 1,
-        concept: "Flower",
-        quantity: -20
-    },
-    {
-        id: 3,
-        concept: "Flowers",
-        quantity: 20
-    },
-    ]
-}
+export const initialState = []
 
 export const TransactionReducer = (state, action) => { 
     switch (action.type) {
         case "ADD_TRANSACTION":
-            return {
-                ...state,
-                transactions: [action.payload, ...state.transactions]
-            }
+            return [action.payload, ...state]
         case "DELETE_TRANSACTION":
-            return {
-                ...state,
-                transactions: state.transactions.filter(transaction => transaction.id !== action.payload)
-            }
+            return state.filter(transaction => transaction.id !== action.payload)
+        case "REMOVE_ALL":
+            return []
         default:
             return state;
     }

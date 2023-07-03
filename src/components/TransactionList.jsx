@@ -2,7 +2,12 @@ import { useContext } from "react";
 import { TransactionContext } from "../context/GlobalController";
 
 export default function TransactionList() {
-  const { transactions, deleteTransaction } = useContext(TransactionContext) ;
+  const { clearTransactions } = useContext(TransactionContext);
+  function removeAll(e) {
+    e.preventDefault();
+    clearTransactions();
+  }
+  const { transactions, deleteTransaction } = useContext(TransactionContext);
   return (
     <div>
       <h3>History</h3>
@@ -10,13 +15,17 @@ export default function TransactionList() {
         {
           transactions.map(transaction => (
             <li className={transaction.quantity < 0 ? 'minus' : 'plus'} key={transaction.id}>
-              {transaction.concept} <span>${transaction.quantity}</span><button
+              {transaction.concept}
+              <span>${transaction.quantity}</span>
+              <span>{transaction.date.day} / { transaction.date.month + 1}</span>  
+              <button
                 onClick={() => deleteTransaction(transaction.id)}
                 className="delete-btn">x</button>
             </li>
           ))
         }
       </ul>
+      <button className="btn" onClick={removeAll} >Eliminar Todo</button>
     </div>
   )
 }

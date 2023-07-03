@@ -176,3 +176,51 @@ input[type="date"]{
 .list li:hover .delete-btn {
   opacity: 1;
 }
+
+/* checkbox */
+.checkbox input[type="checkbox"] {
+  display: none;
+}
+.checkbox input[type="checkbox"] + label {
+  display: inline-block;
+  position: relative;
+  padding-left: 40px;
+  margin-bottom: 20px;
+  padding-top: 0.3rem;
+  font: clamp(1rem, 1vw, 3rem) "Glory", sans-serif;
+  cursor: pointer;
+}
+.checkbox input[type="checkbox"]:hover + label:hover {
+  color: rgb(23, 86, 228);
+}
+.checkbox input[type="checkbox"]:hover + label:before {
+  background: #50565a;
+  box-shadow: inset 0px 0px 0px 2px #f7f2f2;
+}
+.checkbox input[type="checkbox"] + label:last-child {
+  margin-bottom: 0;
+}
+.checkbox input[type="checkbox"] + label:before {
+  content: "";
+  display: block;
+  width: 1.4em;
+  height: 1.4em;
+  border: 1px solid #343a3f;
+  border-radius: 0.2em;
+  position: absolute;
+  left: 0;
+  top: 0;
+  -webkit-transition: all 0.2s, background 0.2s ease-in-out;
+  transition: all 0.2s, background 0.2s ease-in-out;
+  background: #f3f3f3;
+}
+.checkbox input[type="checkbox"]:checked + label:before {
+  width: 1.3em;
+  height: 1.3em;
+  border-radius: 0.2em;
+  border: 2px solid #fff;
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
+  background: #50565a;
+  box-shadow: 0 0 0 1px #000;
+}

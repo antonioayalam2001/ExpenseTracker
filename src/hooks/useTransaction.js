@@ -1,25 +1,52 @@
-import { useReducer } from "react";
-import { TransactionReducer, initialState } from "../context/TransacionReducer"
+import { useEffect, useReducer } from "react";
+import { TransactionReducer} from "../context/TransacionReducer"
 
-export function useTransaction() {
+function init () {
+  /* +++++++++++++++++++++++++++++++++++
+  Function inicializadora de nuestro todos (estado del Reducer)
+  ++++++++++++++++++++++++++++++++++++*/
+  return JSON.parse(localStorage.getItem('transactions')) || [];
+}
+
+export function useTransaction(initialState = [{
+  id: 0,
+  concept: "",
+  amount: 0,
+  date: "",
+}]) {
+
+  const [transactions, dispatch] = useReducer(TransactionReducer, initialState, init);
+
+  useEffect(() => {
+    localStorage.setItem('transactions', JSON.stringify(transactions));
+    return () => {
+    }
+  }, [transactions])
   
-  const [state, dispatch] = useReducer(TransactionReducer, initialState);
-  const addTransaction = (transaction) => { 
+
+  const addTransaction = (transaction) => {
     dispatch({
       type: "ADD_TRANSACTION",
       payload: transaction
     })
   }
-  const deleteTransaction = (id) => { 
+  const deleteTransaction = (id) => {
     dispatch({
       type: "DELETE_TRANSACTION",
       payload: id
     })
   }
 
+  const clearTransactions = () => {
+    dispatch({
+      type: "REMOVE_ALL",
+    })
+  }
+
   return {
-    state,
+    transactions,
     addTransaction,
+    clearTransactions,
     deleteTransaction,
   }
 }

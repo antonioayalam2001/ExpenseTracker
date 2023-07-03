@@ -5,14 +5,16 @@ import { useTransaction } from "../hooks/useTransaction";
 export const TransactionContext = createContext();
 
 export default function TransactionProvider({ children }) {
-    const { state,
+    const { transactions,
         addTransaction,
+        clearTransactions,
         deleteTransaction } = useTransaction(); 
 
   return (
       <TransactionContext.Provider value={{
-          transactions: state.transactions,
+          transactions,
           addTransaction,
+          clearTransactions,
           deleteTransaction
       }}>
           {children}
