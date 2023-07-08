@@ -1,5 +1,6 @@
 import { useContext } from "react";
-import { TransactionContext } from "../context/GlobalController";
+import { TransactionContext } from "../context/TransactionProvider";
+import { useFilters } from "../hooks/useFilters";
 
 export default function TransactionList() {
   const { clearTransactions } = useContext(TransactionContext);
@@ -8,16 +9,19 @@ export default function TransactionList() {
     clearTransactions();
   }
   const { transactions, deleteTransaction } = useContext(TransactionContext);
+  const { filterDebts } = useFilters();
+  const filteredTransactions = filterDebts(transactions);
+  console.log(filteredTransactions);
   return (
     <div>
       <h3>History</h3>
       <ul id="list" className="list">
         {
-          transactions.map(transaction => (
+          filteredTransactions.map(transaction => (
             <li className={transaction.quantity < 0 ? 'minus' : 'plus'} key={transaction.id}>
               {transaction.concept}
               <span>${transaction.quantity}</span>
-              <span>{transaction.date.day} / { transaction.date.month + 1}</span>  
+              <span>{transaction.date.day} / {transaction.date.month + 1}</span>
               <button
                 onClick={() => deleteTransaction(transaction.id)}
                 className="delete-btn">x</button>

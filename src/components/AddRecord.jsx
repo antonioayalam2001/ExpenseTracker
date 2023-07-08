@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { TransactionContext } from "../context/GlobalController";
+import { TransactionContext } from "../context/TransactionProvider";
 
 export default function AddRecord() {
     const [concept, setConcept] = useState("")
@@ -12,6 +12,9 @@ export default function AddRecord() {
 
     function submitTransaction(e) {
         e.preventDefault();
+        //Datos del formulario
+        // const formValues = new FormData(e.target)
+        // console.log(formValues.get("card_number"));
 
         const inputDate = fecha.split("-").reverse()
 
@@ -29,10 +32,10 @@ export default function AddRecord() {
             date: {
                 fullDate: date.toLocaleString(),
                 day: date.getDate(), // del 1 al 31
-                month: date.getMonth() , // de 0 a 11
+                month: date.getMonth(), // de 0 a 11
             },
             quantity: +quantity,
-            9765: checked
+            card : checked ? "9765" : "3318"
         }
         // Adding the transaction to the state
         addTransaction(newTransaction);
@@ -57,7 +60,7 @@ export default function AddRecord() {
                 <button type="submit" className="btn">Add</button>
                 <div className="checkbox">
                     <input type="checkbox" name="card_number" id="checkbox-rect1" checked={checked} value={"9765"}
-                        onChange={() => setChecked(!checked)} 
+                        onChange={() => setChecked(!checked)}
                     />
                     <label htmlFor="checkbox-rect1" className="checkmark">9765</label>
                 </div>
