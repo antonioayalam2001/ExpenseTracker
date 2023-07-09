@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { FilterContext } from "../context/FilterProvider";
-const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September",
-  "October", "November", "December"]
+import { months } from "../helpers/constants";
+
 export function useFilters() {
     const { filters, setFilters } = useContext(FilterContext);
 

@@ -1,11 +1,17 @@
 import { createContext, useState } from "react";
 import PropTypes from 'prop-types'
+import { months } from "../helpers/constants";
 
 export const FilterContext = createContext();
 
+const getCurrentMonth = () => {
+    return months[new Date(window.Date.now()).getMonth()]
+}
+
+
 export const FilterProvider = ({ children }) => {
     const [filters, setFilters] = useState({
-        month: "January",
+        month: getCurrentMonth(),
         creditCard: "",
     })
 

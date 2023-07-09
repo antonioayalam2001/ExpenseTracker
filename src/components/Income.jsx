@@ -1,20 +1,20 @@
-import { useContext, useEffect, useState } from "react"
-import { TransactionContext } from "../context/TransactionProvider"
-import { useFilters } from "../hooks/useFilters"
-
-const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September",
-  "October", "November", "December"]
+import { useContext, useEffect, useState } from "react";
+import { TransactionContext } from "../context/TransactionProvider";
+import { months } from "../helpers/constants";
+import { useFilters } from "../hooks/useFilters";
 
 export default function Income() {
   const { transactions } = useContext(TransactionContext)
   const { filters, setFilters } = useFilters();
-  const handleMonthChange = ({ target }) => { 
+  const handleMonthChange = ({ target }) => {
     setFilters({ ...filters, month: target.value })
   }
 
   const [primerPago, setPrimerPago] = useState({ mes: "", cantidad: 0 })
   const [segundoPago, setSegundoPago] = useState({ mes: "", cantidad: 0 })
+
   const fechaDeCorte9765 = 13;
+  
   useEffect((() => {
     //Calculando el total de gasto para el mes actual
     const indexOfSelectedMonth = months.indexOf(filters.month);
@@ -38,9 +38,9 @@ export default function Income() {
 
   return (
     <>
-      <div className="form-control">
+      <div className="select-form-control">
         <label htmlFor="month_select">Select a Month</label>
-        <select name="months" id="month_select" onChange={handleMonthChange} value={filters.month}>
+        <select className="select-styled" name="months" id="month_select" onChange={handleMonthChange} value={filters.month}>
           <option value="">--Please choose an option--</option>
           {months.map((month, index) => (
             <option key={index} value={month}>{month}</option>
