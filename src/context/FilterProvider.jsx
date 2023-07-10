@@ -12,7 +12,7 @@ const getCurrentMonth = () => {
 export const FilterProvider = ({ children }) => {
     const [filters, setFilters] = useState({
         month: getCurrentMonth(),
-        creditCard: "",
+        card: "general",
     })
 
     return (

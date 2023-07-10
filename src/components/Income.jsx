@@ -2,39 +2,51 @@ import { useContext, useEffect, useState } from "react";
 import { TransactionContext } from "../context/TransactionProvider";
 import { months } from "../helpers/constants";
 import { useFilters } from "../hooks/useFilters";
+import { SettingsContext } from "../context/SettingsProvider";
 
 export default function Income() {
   const { transactions } = useContext(TransactionContext)
-  const { filters, setFilters } = useFilters();
-  const handleMonthChange = ({ target }) => {
-    setFilters({ ...filters, month: target.value })
-  }
+  const { settings: { cards } } = useContext(SettingsContext)
+  const { filters, setFilters, filterDebts } = useFilters();
 
   const [primerPago, setPrimerPago] = useState({ mes: "", cantidad: 0 })
   const [segundoPago, setSegundoPago] = useState({ mes: "", cantidad: 0 })
 
-  const fechaDeCorte9765 = 13;
-  
+  const handleMonthChange = ({ target }) => {
+    setFilters({ ...filters, month: target.value })
+  }
+  const handleLimit = ({ target }) => {
+    setFilters({ ...filters, card: target.value })
+  }
   useEffect((() => {
+    let fecha_corte = 0;
+    if (filters.card === 'general') {
+      fecha_corte = 10
+    } else {
+      fecha_corte = cards.find(card => card.card_number === filters.card).fecha_corte;
+    }
+
+    const transactionsFiltered = filterDebts(transactions)
+
     //Calculando el total de gasto para el mes actual
     const indexOfSelectedMonth = months.indexOf(filters.month);
 
-    const firstTotalMonth = transactions.filter(transaction => {
-      return transaction.quantity > 0 && transaction.date.day < fechaDeCorte9765 && transaction.date.month === indexOfSelectedMonth
+    const firstTotalMonth = transactionsFiltered.filter(transaction => {
+      return transaction.quantity > 0 && transaction.date.day < fecha_corte && transaction.date.month === indexOfSelectedMonth
     }).reduce((acc, transaction) => (acc += transaction.quantity), 0)
     //Obteniendo el mes que se paga
     const monthToPay = months.indexOf(filters.month) + 1 === 12 ? 0 : months.indexOf(filters.month) + 1;
 
     setPrimerPago({ mes: months[monthToPay], cantidad: firstTotalMonth })
 
-    const secondTotalMonth = transactions.filter(transaction => {
-      return transaction.quantity > 0 && transaction.date.day > fechaDeCorte9765 && transaction.date.month === indexOfSelectedMonth
+    const secondTotalMonth = transactionsFiltered.filter(transaction => {
+      return transaction.quantity > 0 && transaction.date.day > fecha_corte && transaction.date.month === indexOfSelectedMonth
     }).reduce((acc, transaction) => (acc += transaction.quantity), 0)
 
     const monthToPaySecond = months.indexOf(filters.month) + 2 === 12 ? 0 : months.indexOf(filters.month) + 2;
     setSegundoPago({ mes: months[monthToPaySecond], cantidad: secondTotalMonth })
 
-  }), [transactions, filters.month])
+  }), [transactions, filters.month, cards, filters.card])
 
   return (
     <>
@@ -46,7 +58,16 @@ export default function Income() {
             <option key={index} value={month}>{month}</option>
           ))}
         </select>
-
+      </div>
+      <div className="select-form-control">
+        <label htmlFor="card_select">Select a Month</label>
+        <select className="select-styled" name="card" id="card_select" onChange={handleLimit} value={filters.card}>
+          {/* Mapear las tarjetas que vienen de la configuración */}
+          {cards.map((card, index) => (
+            <option key={index} value={card.card_number}>{card.card_number}</option>
+          ))}
+          <option key={"general"} value={"general"}>{"general"}</option>
+        </select>
       </div>
       <div className="inc-exp-container">
         <div>

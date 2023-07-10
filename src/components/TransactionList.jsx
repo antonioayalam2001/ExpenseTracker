@@ -9,9 +9,12 @@ export default function TransactionList() {
     clearTransactions();
   }
   const { transactions, deleteTransaction } = useContext(TransactionContext);
+
   const { filterDebts } = useFilters();
+
   const filteredTransactions = filterDebts(transactions);
   console.log(filteredTransactions);
+
   return (
     <div>
       <h3>History</h3>

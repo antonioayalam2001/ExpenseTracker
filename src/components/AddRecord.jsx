@@ -3,6 +3,7 @@ import { TransactionContext } from "../context/TransactionProvider";
 import { useForm } from "../hooks/useForm";
 import { SettingsContext } from "../context/SettingsProvider";
 import { InputCard } from "./InputCard";
+import Swal from "sweetalert2";
 
 function initDate() {
     const date = new Date(window.Date.now()).toLocaleDateString().split("/")
@@ -17,12 +18,13 @@ export default function AddRecord() {
 
     const { addTransaction } = useContext(TransactionContext);
     const { settings: { cards } } = useContext(SettingsContext)
-    const { form: { concept, quantity, date: formDate, card }, handleChangeForm } = useForm({
+    const { form: { concept, quantity, date: formDate, card = "general" }, handleChangeForm } = useForm({
         concept: "",
         quantity: 0,
         date: initDate(),
     });
 
+    console.log(card);
     //Obteniendo fecha actual para colocar en el formulario
     function submitTransaction(e) {
         e.preventDefault();
@@ -44,6 +46,11 @@ export default function AddRecord() {
             card: card
         }
         // Adding the transaction to the state
+        Swal.fire({
+            title: 'Transaccion agregada',
+            icon: 'success',
+            timer: 1500
+        })
         addTransaction(newTransaction);
     }
     return (
@@ -69,6 +76,7 @@ export default function AddRecord() {
                         <InputCard key={card.id} card_number={card.card_number} id={card.id} handleChangeForm={handleChangeForm} />
                     ))
                     }
+                    <InputCard key={"general"} card_number={"general"} id={"general"} handleChangeForm={handleChangeForm} />
                 </div>
             </form>
 
