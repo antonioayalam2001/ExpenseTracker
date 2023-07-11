@@ -1,7 +1,7 @@
 import { useEffect, useReducer } from "react";
-import { TransactionReducer} from "../context/TransacionReducer"
+import { TransactionReducer } from "../context/TransacionReducer"
 
-function init () {
+function init() {
   /* +++++++++++++++++++++++++++++++++++
   Function inicializadora de nuestro todos (estado del Reducer)
   ++++++++++++++++++++++++++++++++++++*/
@@ -22,13 +22,14 @@ export function useTransaction(initialState = [{
     return () => {
     }
   }, [transactions])
-  
+
 
   const addTransaction = (transaction) => {
     dispatch({
       type: "ADD_TRANSACTION",
       payload: transaction
     })
+
   }
   const deleteTransaction = (id) => {
     dispatch({

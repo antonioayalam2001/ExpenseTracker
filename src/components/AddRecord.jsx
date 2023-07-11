@@ -1,9 +1,9 @@
 import { useContext, useState } from "react";
+import Swal from "sweetalert2";
+import { SettingsContext } from "../context/SettingsProvider";
 import { TransactionContext } from "../context/TransactionProvider";
 import { useForm } from "../hooks/useForm";
-import { SettingsContext } from "../context/SettingsProvider";
 import { InputCard } from "./InputCard";
-import Swal from "sweetalert2";
 
 function initDate() {
     const date = new Date(window.Date.now()).toLocaleDateString().split("/")
@@ -15,16 +15,27 @@ function initDate() {
 }
 
 export default function AddRecord() {
-
     const { addTransaction } = useContext(TransactionContext);
     const { settings: { cards } } = useContext(SettingsContext)
-    const { form: { concept, quantity, date: formDate, card = "general" }, handleChangeForm } = useForm({
+    const { form: { concept, quantity, date: formDate, card = "general" }, handleChangeForm, resetForm } = useForm({
         concept: "",
         quantity: 0,
         date: initDate(),
+        card: "general"
     });
+    const [selectedCard, setSelectedCard] = useState(card)
+    const [selectedCheckbox, setSelectedCheckbox] = useState(null);
 
-    console.log(card);
+    const handleCheckboxChange = (elementId) => {
+        setSelectedCheckbox((prevSelectedCheckbox) =>
+            prevSelectedCheckbox === elementId ? null : elementId
+        );
+        if (elementId === "undefined") {
+            handleChangeForm({ target: { name: "card", value: "general" } })
+            return
+        }
+        handleChangeForm({ target: { name: "card", value: elementId } })
+    };
     //Obteniendo fecha actual para colocar en el formulario
     function submitTransaction(e) {
         e.preventDefault();
@@ -51,7 +62,10 @@ export default function AddRecord() {
             icon: 'success',
             timer: 1500
         })
+        setSelectedCard(card)
+        console.log(newTransaction);
         addTransaction(newTransaction);
+        // Resetting the form
     }
     return (
         <div>
@@ -64,7 +78,7 @@ export default function AddRecord() {
                 </div>
                 <div className="form-control">
                     <label htmlFor="quantity">Cantidad<br /> </label>
-                    <input name="quantity" value={quantity} onChange={handleChangeForm} type="number" id="quantity" placeholder="-123 || 123" />
+                    <input name="quantity" value={quantity} onChange={handleChangeForm} type="number" id="quantity" placeholder="1200" min={1} />
                 </div>
                 <div className="form-control">
                     <label htmlFor="date">Fecha de Compra: </label>
@@ -73,10 +87,11 @@ export default function AddRecord() {
                 <button type="submit" className="btn">Add</button>
                 <div className="checkbox_wrapper">
                     {cards.map((card) => (
-                        <InputCard key={card.id} card_number={card.card_number} id={card.id} handleChangeForm={handleChangeForm} />
-                    ))
-                    }
-                    <InputCard key={"general"} card_number={"general"} id={"general"} handleChangeForm={handleChangeForm} />
+                        <InputCard key={card.id} card_number={card.card_number} id={card.id} handleChangeForm={handleChangeForm} card={selectedCard}
+                            handleCheckboxChange={() => handleCheckboxChange(card.card_number)} isChecked={selectedCheckbox === card.card_number}
+                        />
+                    ))}
+                    <InputCard key={"general"} card_number={"general"} id={"general"} handleChangeForm={handleChangeForm} card={selectedCard} handleCheckboxChange={() => handleCheckboxChange(card.card_number)} isChecked={selectedCheckbox === card.card_number} />
                 </div>
             </form>
 

@@ -8,18 +8,19 @@ export default function TransactionProvider({ children }) {
     const { transactions,
         addTransaction,
         clearTransactions,
-        deleteTransaction } = useTransaction(); 
+        deleteTransaction,
+    } = useTransaction();
 
-  return (
-      <TransactionContext.Provider value={{
-          transactions,
-          addTransaction,
-          clearTransactions,
-          deleteTransaction
-      }}>
-          {children}
+    return (
+        <TransactionContext.Provider value={{
+            transactions,
+            addTransaction,
+            clearTransactions,
+            deleteTransaction
+        }}>
+            {children}
         </TransactionContext.Provider>
-  )
+    )
 }
 
 //Agregando proptypes a TransactionProvider

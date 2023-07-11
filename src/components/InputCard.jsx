@@ -1,11 +1,10 @@
-import { useState } from "react"
 
-export const InputCard = ({ card_number, id, handleChangeForm }) => {
-    const [checked, setChecked] = useState(false)
+export const InputCard = ({ card_number, id, handleCheckboxChange, isChecked }) => {
+
     return (
-        <div className="checkbox">
-            <input type="checkbox" name={"card"} id={id} checked={checked} value={card_number}
-                onClick={() => setChecked(!checked)} onChange={handleChangeForm}
+        <div className={`checkbox ${isChecked ? ' selected' : ''}`}>
+            <input type="checkbox" name={"card"} id={id} checked={isChecked} value={card_number}
+                onChange={handleCheckboxChange}
             />
             <label htmlFor={id} className="checkmark">{card_number}</label>
         </div>

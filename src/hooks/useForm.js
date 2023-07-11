@@ -6,18 +6,22 @@ export function useForm(initialFormValue = {}) {
     const handleChangeForm = (e) => {
         const { target, target: { name } } = e
         const value = target.value
-        if (target.type === 'checkbox' && target.checked === true) {
-            setForm({ ...form, [name]: value })
+        if (target.checked === false && target.name === 'card') {
+            setForm({ ...form, [name]: '' })
             return
+        } else {
+            setForm({ ...form, [name]: value })
         }
-        console.log(name);
-        console.log(value);
-        setForm({ ...form, [name]: value })
+    }
+
+    const resetForm = () => {
+        setForm(initialFormValue)
     }
 
     return {
         form,
         setForm,
-        handleChangeForm
+        resetForm,
+        handleChangeForm,
     }
 }
