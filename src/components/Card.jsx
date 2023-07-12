@@ -1,5 +1,3 @@
-import React, { useContext } from 'react'
-import { SettingsContext } from '../context/SettingsProvider'
 import Swal from 'sweetalert2'
 
 export default function Card({ id, fecha_corte, card_number, deleteCard }) {

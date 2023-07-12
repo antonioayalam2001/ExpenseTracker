@@ -2,6 +2,7 @@ import { useContext, useEffect, useRef } from 'react'
 import { SettingsContext } from '../context/SettingsProvider'
 import { useForm } from '../hooks/useForm'
 import Card from './Card'
+import Swal from 'sweetalert2'
 
 export default function PopUpForm({ showConfig }) {
     const { form, handleChangeForm } = useForm({
@@ -11,12 +12,53 @@ export default function PopUpForm({ showConfig }) {
     const { settings, addCard, deleteCard } = useContext(SettingsContext)
     const outerContainerRef = useRef()
     const handleAddCard = () => {
+        //Si incluye letras
+        if (form.card_number.trim().match(/[a-zA-Z]/i)) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Por favor ingresa solo numeros',
+            })
+            return
+        }
+
+        if (form.card_number.trim() === "" || form.fecha_corte.trim() === "") {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Por favor llena todos los campos',
+            })
+        }
+        if (form.card_number.trim().replace(" ", "").length < 4 || form.card_number.trim().replace(" ", "").length > 16) {
+            let msg = form.card_number.trim().replace(" ", "").length < 4 ? "Por favor ingresa al menos 4 digitos" : "Por favor ingresa menos de 16 digitos"
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: msg
+            })
+            return
+        }
+
+        if (form.fecha_corte.trim() < 1 || form.fecha_corte.trim() > 31) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Por favor ingresa un dia valido',
+            })
+            return
+        }
+
         const card = {
             id: Math.floor(Math.random() * 100000000),
-            card_number: form.card_number,
+            //Agarrando solo los ultimos 4 digitos de la tarjeta
+            card_number: form.card_number.trim().replace(" ", "").slice(-4),
             fecha_corte: form.fecha_corte,
         }
         addCard(card)
+        Swal.fire({
+            icon: 'success',
+            title: 'Tarjeta agregada',
+        })
         showConfig()
     }
     useEffect(() => {
