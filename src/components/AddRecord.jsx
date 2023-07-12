@@ -8,9 +8,11 @@ import { InputCard } from "./InputCard";
 function initDate() {
     const date = new Date(window.Date.now()).toLocaleDateString().split("/")
     //Dando formato a la fecha
+    console.log(date);
     const year = date[2]
-    const month = date[1].length === 1 ? `0${date[1]}` : date[1]
-    const day = date[0].length === 1 ? `0${date[0]}` : date[0]
+    const day = date[1].length === 1 ? `0${date[1]}` : date[1]
+    const month = date[0].length === 1 ? `0${date[0]}` : date[0]
+    console.log(`${year}-${month}-${day}`);
     return `${year}-${month}-${day}`
 }
 
@@ -63,7 +65,7 @@ export default function AddRecord() {
             timer: 1500
         })
         setSelectedCard(card)
-        console.log(newTransaction);
+        resetForm()
         addTransaction(newTransaction);
         // Resetting the form
     }

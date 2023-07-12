@@ -27,7 +27,7 @@ export default function PopUpForm({ showConfig }) {
                 outerContainer.classList.add("animate__animated", "animate__fadeOut")
                 setTimeout(() => {
                     showConfig()
-                }, 900)
+                }, 800)
 
             }
         }
