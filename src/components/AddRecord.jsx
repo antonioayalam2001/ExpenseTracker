@@ -13,7 +13,13 @@ function initDate() {
     const day = date[1].length === 1 ? `0${date[1]}` : date[1]
     const month = date[0].length === 1 ? `0${date[0]}` : date[0]
     console.log(`${year}-${month}-${day}`);
-    return `${year}-${month}-${day}`
+    //Dependiendo del formato de la fecha, se debe cambiar el orden de los elementos
+    //Si el lenguaje es ingles, el formato es mes/dia/año
+    //Si el lenguaje es español, el formato es dia/mes/año
+    if (window.navigator.language === "en-US") {
+        return `${year}-${day}-${month}`
+    }
+    return `${year}-${day}-${month}`
 }
 
 export default function AddRecord() {

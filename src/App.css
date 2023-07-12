@@ -478,3 +478,35 @@ input[type="date"]{
 body:has(.active){
   overflow: hidden;
 }
+
+#root:has(.active){
+  overflow: hidden;
+}
+
+
+
+
+@media screen and (max-width: 768px) {
+  .container{
+    width: 100%;
+  }
+  .inc-exp-container {
+    flex-direction: column;
+  }
+
+  .inc-exp-container > div:first-of-type {
+    border-right: none;
+    margin-bottom: 20px;
+  }
+
+  .list {
+    max-height: 150px;
+  }
+}
+
+@media screen and (width < 450px) {
+  .container {
+    width: 100%;
+  }
+}
+
