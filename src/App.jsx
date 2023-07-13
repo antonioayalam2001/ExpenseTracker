@@ -21,8 +21,12 @@ function App() {
               <Header />
               <div className="container">
                 <Income />
-                <TransactionList />
-                <AddRecord />
+                <div className="records__container">
+
+                  <TransactionList />
+                  <AddRecord />
+                  
+                </div>
               </div>
             </SettingsProvider>
           </FilterProvider>

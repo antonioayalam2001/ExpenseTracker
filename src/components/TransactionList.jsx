@@ -13,10 +13,8 @@ export default function TransactionList() {
   const { filterDebts } = useFilters();
 
   const filteredTransactions = filterDebts(transactions);
-  console.log(filteredTransactions);
-
   return (
-    <div>
+    <div className="records__list">
       <h3>History</h3>
       <ul id="list" className="list">
         {

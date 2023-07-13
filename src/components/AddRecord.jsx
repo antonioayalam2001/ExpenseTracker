@@ -8,11 +8,9 @@ import { InputCard } from "./InputCard";
 function initDate() {
     const date = new Date(window.Date.now()).toLocaleDateString().split("/")
     //Dando formato a la fecha
-    console.log(date);
     const year = date[2]
     const day = date[1].length === 1 ? `0${date[1]}` : date[1]
     const month = date[0].length === 1 ? `0${date[0]}` : date[0]
-    console.log(`${year}-${month}-${day}`);
     //Dependiendo del formato de la fecha, se debe cambiar el orden de los elementos
     //Si el lenguaje es ingles, el formato es mes/dia/año
     //Si el lenguaje es español, el formato es dia/mes/año
@@ -76,7 +74,7 @@ export default function AddRecord() {
         // Resetting the form
     }
     return (
-        <div>
+        <div className="records__form">
             <h3>Add new transaction</h3>
 
             <form id="form" onSubmit={submitTransaction}>

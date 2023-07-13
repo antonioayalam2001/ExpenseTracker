@@ -42,12 +42,12 @@ export default function Income() {
     const secondTotalMonth = transactionsFiltered.filter(transaction => {
       return transaction.quantity > 0 && transaction.date.day > fecha_corte && transaction.date.month === indexOfSelectedMonth
     }).reduce((acc, transaction) => (acc += transaction.quantity), 0)
-    
+
     let monthToPaySecond = "";
     if (filters.month === "December") {
       monthToPaySecond = 0 + 1;
-    } else { 
-      monthToPaySecond = months.indexOf(filters.month) + 2 ;
+    } else {
+      monthToPaySecond = months.indexOf(filters.month) + 2;
     }
 
     setSegundoPago({ mes: months[monthToPaySecond], cantidad: secondTotalMonth })
@@ -56,45 +56,48 @@ export default function Income() {
 
   return (
     <>
-      <div className="select-form-control">
-        <label htmlFor="month_select">Select a Month</label>
-        <select className="select-styled" name="months" id="month_select" onChange={handleMonthChange} value={filters.month}>
-          <option value="">--Please choose an option--</option>
-          {months.map((month, index) => (
-            <option key={index} value={month}>{month}</option>
-          ))}
-        </select>
-      </div>
-      <div className="select-form-control">
-        <label htmlFor="card_select">Select a Card</label>
-        <select className="select-styled" name="card" id="card_select" onChange={handleLimit} value={filters.card}>
-          {/* Mapear las tarjetas que vienen de la configuración */}
-          {cards.map((card, index) => (
-            <option key={index} value={card.card_number}>{card.card_number}</option>
-          ))}
-          <option key={"general"} value={"general"}>{"general"}</option>
-        </select>
+      <div className="filters__box">
+
+        <div className="select-form-control">
+          <label htmlFor="month_select">Select a Month</label>
+          <select className="select-styled" name="months" id="month_select" onChange={handleMonthChange} value={filters.month}>
+            <option value="">--Please choose an option--</option>
+            {months.map((month, index) => (
+              <option key={index} value={month}>{month}</option>
+            ))}
+          </select>
+        </div>
+        <div className="select-form-control">
+          <label htmlFor="card_select">Select a Card</label>
+          <select className="select-styled" name="card" id="card_select" onChange={handleLimit} value={filters.card}>
+            {/* Mapear las tarjetas que vienen de la configuración */}
+            {cards.map((card, index) => (
+              <option key={index} value={card.card_number}>{card.card_number}</option>
+            ))}
+            <option key={"general"} value={"general"}>{"general"}</option>
+          </select>
+        </div>
+
       </div>
       {
         filters.card === "general" ?
-        <div className="inc-exp-container">
-        <div>
-          <h4>Total</h4>
-          <p id="money-plus" className="money plus">{primerPago.cantidad + segundoPago.cantidad}</p>
-        </div>
-      </div>
+          <div className="inc-exp-container">
+            <div>
+              <h4>Total</h4>
+              <p id="money-plus" className="money plus">{primerPago.cantidad + segundoPago.cantidad}</p>
+            </div>
+          </div>
           :
           <div className="inc-exp-container">
-          <div>
-            <h4>{primerPago.mes}</h4>
-            <p id="money-plus" className="money plus">{primerPago.cantidad}</p>
+            <div>
+              <h4>{primerPago.mes}</h4>
+              <p id="money-plus" className="money plus">{primerPago.cantidad}</p>
+            </div>
+            <div >
+              <h4>{segundoPago.mes}</h4>
+              <p id="money-minus" className="money minus">{segundoPago.cantidad}</p>
+            </div>
           </div>
-          <div >
-            <h4>{segundoPago.mes}</h4>
-            <p id="money-minus" className="money minus">{segundoPago.cantidad}</p>
-          </div>
-        </div>
-
       }
     </>
   )
