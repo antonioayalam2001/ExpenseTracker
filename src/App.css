@@ -137,16 +137,15 @@ h1,h2,h3,h4{
 .inc-exp-container > div {
   flex: 1;
   text-align: center;
-
+  background: #FAD9E6;
+  padding: 1rem;
 }
 
 .inc-exp-container > div:first-of-type {
-  border-right: 1px solid #dedede;
   border-radius: 1rem 0 0 1rem;
 }
 
 .inc-exp-container > div:nth-child(2){
-  border-right: 1px solid #dedede;
   border-radius:  0 1rem 1rem 0rem;
 }
 
@@ -217,7 +216,7 @@ input[type="date"]{
   padding: 10px;
   margin: 10px 0;
   -webkit-animation: scale-in-tl 0.5s 1.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
-  animation: scale-in-tl 0.5s 1.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+  animation: scale-in-tl 0.5s 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 }
 
 .list li.plus {
@@ -470,8 +469,6 @@ label{
   font-weight: bolder;
 }
 
-
-
 @media screen and (max-width: 768px) {
   .container{
     width: 100%;
@@ -525,8 +522,6 @@ label{
   }
 }
 
-
-
 /* ANIMACIONES */
 
 /* ----------------------------------------------
@@ -573,8 +568,6 @@ label{
     opacity: 1;
   }
 }
-
-
 
 .select-styled option {
   animation: fade-in 10s forwards;
@@ -628,6 +621,9 @@ label{
 
   h1,h2,h3,h4,p{
     color: var(--secondary-color);
+  }
+  h1,h2,h3,h4{
+    text-shadow: 0 0 10px var(--dark-color);
   }
   label{
     color: #AC7DD2;
